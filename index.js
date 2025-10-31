@@ -1,16 +1,18 @@
 const cvs = document.getElementById("game");
 const ctx = cvs.getContext("2d");
-const R = 200;
 const center = {x: 250, y: 250};
-const n = 6;
-const points = [];
-const edges = {};
-const history = [];
+const turnLabel = document.getElementById("turn");
+const selectEl = document.getElementById("pointCount");
+
+let R = 200;
+let n = parseInt(selectEl.value);
+let points = [];
+let edges = {};
+let history = [];
 let currentColor = "red";
 let gameOver = false;
 let winEdges = [];
 let selected = [];
-const turnLabel = document.getElementById("turn");
 
 // === 音設定 ===
 let audioCtx = null;
@@ -33,15 +35,20 @@ function playClick(color) {
   osc.stop(audioCtx.currentTime + 0.1);
 }
 
-// === 頂点配置 ===
-for (let i = 0; i < n; i++) {
-  const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
-  points.push({
-    x: center.x + R * Math.cos(angle),
-    y: center.y + R * Math.sin(angle)
-  });
+// === 頂点生成関数 ===
+function generatePoints() {
+  points = [];
+  const angleStep = (2 * Math.PI) / n;
+  for (let i = 0; i < n; i++) {
+    const angle = angleStep * i - Math.PI / 2;
+    points.push({
+      x: center.x + R * Math.cos(angle),
+      y: center.y + R * Math.sin(angle)
+    });
+  }
 }
 
+// === 描画関数 ===
 function drawPoints() {
   ctx.clearRect(0, 0, cvs.width, cvs.height);
 
@@ -59,7 +66,7 @@ function drawPoints() {
   ctx.fillStyle = "black";
   for (const p of points) {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2); // 点の半径12
     ctx.fill();
   }
 }
@@ -73,17 +80,16 @@ cvs.addEventListener("click", e => {
   const mx = e.clientX - rect.left;
   const my = e.clientY - rect.top;
 
-  // 点クリック検出
   let hitIndex = -1;
   for (let i = 0; i < n; i++) {
     const dx = mx - points[i].x;
     const dy = my - points[i].y;
-    if (Math.sqrt(dx * dx + dy * dy) < 24) {
+    if (Math.sqrt(dx * dx + dy * dy) < 24) { // 判定範囲も拡大
       hitIndex = i;
       break;
     }
   }
-  if (hitIndex === -1) return; // 空白クリック無視
+  if (hitIndex === -1) return;
 
   playClick(currentColor);
   selected.push(hitIndex);
@@ -139,14 +145,15 @@ function hasEdge(list, a, b) {
 
 function reset() {
   ensureAudioCtx();
-  for (let k in edges) delete edges[k];
-  history.length = 0;
+  edges = {};
+  history = [];
   winEdges = [];
   currentColor = "red";
   gameOver = false;
   selected = [];
   turnLabel.textContent = "赤の番";
-  setTimeout(drawPoints, 0);
+  generatePoints();
+  drawPoints();
 }
 
 function undo() {
@@ -162,7 +169,12 @@ function undo() {
 document.getElementById("resetBtn").addEventListener("click", reset);
 document.getElementById("undoBtn").addEventListener("click", undo);
 
+// === プルダウン変更時に点数更新 ===
+selectEl.addEventListener("change", () => {
+  n = parseInt(selectEl.value);
+  reset();
+});
+
+// 初期化
+generatePoints();
 drawPoints();
-
-
-
