@@ -66,7 +66,7 @@ function drawPoints() {
   ctx.fillStyle = "black";
   for (const p of points) {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2); // 点の半径12
+    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -84,7 +84,7 @@ cvs.addEventListener("click", e => {
   for (let i = 0; i < n; i++) {
     const dx = mx - points[i].x;
     const dy = my - points[i].y;
-    if (Math.sqrt(dx * dx + dy * dy) < 24) { // 判定範囲拡大
+    if (Math.sqrt(dx * dx + dy * dy) < 24) {
       hitIndex = i;
       break;
     }
@@ -152,15 +152,8 @@ function reset() {
   selected = [];
   currentColor = "red";
   turnLabel.textContent = "赤の番";
-  generatePoints();
   drawPoints();
 }
-
-// === 点数変更時の再描画 ===
-selectEl.addEventListener("change", () => {
-  n = parseInt(selectEl.value); // nを更新
-  reset();                      // 再生成＆再描画
-});
 
 function undo() {
   if (history.length === 0 || gameOver) return;
@@ -175,6 +168,20 @@ function undo() {
 document.getElementById("resetBtn").addEventListener("click", reset);
 document.getElementById("undoBtn").addEventListener("click", undo);
 
-// 初期描画
+// === プルダウン変更時に点数更新 ===
+selectEl.addEventListener("change", () => {
+  n = parseInt(selectEl.value); // 新しい点数を反映
+  edges = {};
+  history = [];
+  winEdges = [];
+  gameOver = false;
+  selected = [];
+  currentColor = "red";
+  turnLabel.textContent = "赤の番";
+  generatePoints(); // ← 新しいnで点を再生成
+  drawPoints();     // ← すぐ描画
+});
+
+// 初期化
 generatePoints();
 drawPoints();
