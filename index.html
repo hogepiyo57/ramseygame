@@ -9,6 +9,17 @@
 <body>
   <h1>ラムゼーゲーム</h1>
   <p id="turn">赤の番</p>
+  <label for="pointCount">点の数：</label>
+<select id="pointCount">
+  <option value="5">5</option>
+  <option value="6" selected>6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+</select>
   <canvas id="game" width="500" height="500"></canvas>
   <div class="buttons">
     <button id="undoBtn">戻る</button>
@@ -17,3 +28,4 @@
   <script src="index.js"></script>
 </body>
 </html>
+
