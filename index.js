@@ -59,7 +59,7 @@ function drawPoints() {
   ctx.fillStyle = "black";
   for (const p of points) {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -78,7 +78,7 @@ cvs.addEventListener("click", e => {
   for (let i = 0; i < n; i++) {
     const dx = mx - points[i].x;
     const dy = my - points[i].y;
-    if (Math.sqrt(dx * dx + dy * dy) < 10) {
+    if (Math.sqrt(dx * dx + dy * dy) < 24) {
       hitIndex = i;
       break;
     }
@@ -163,5 +163,6 @@ document.getElementById("resetBtn").addEventListener("click", reset);
 document.getElementById("undoBtn").addEventListener("click", undo);
 
 drawPoints();
+
 
 
