@@ -1,0 +1,27 @@
+body {
+  text-align: center;
+  font-family: sans-serif;
+  background-color: #fafafa;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+canvas {
+  background: #f4f4f4;
+  display: block;
+  margin: 10px auto;
+  border: 1px solid #333;
+}
+
+.buttons {
+  margin-top: 5px;
+}
+
+button {
+  margin: 5px;
+  padding: 6px 14px;
+  font-size: 16px;
+  cursor: pointer;
+}
