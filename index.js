@@ -59,7 +59,7 @@ function drawPoints() {
   ctx.fillStyle = "black";
   for (const p of points) {
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -163,3 +163,4 @@ document.getElementById("resetBtn").addEventListener("click", reset);
 document.getElementById("undoBtn").addEventListener("click", undo);
 
 drawPoints();
+
