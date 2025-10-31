@@ -84,7 +84,7 @@ cvs.addEventListener("click", e => {
   for (let i = 0; i < n; i++) {
     const dx = mx - points[i].x;
     const dy = my - points[i].y;
-    if (Math.sqrt(dx * dx + dy * dy) < 24) { // 判定範囲も拡大
+    if (Math.sqrt(dx * dx + dy * dy) < 24) { // 判定範囲拡大
       hitIndex = i;
       break;
     }
@@ -148,13 +148,19 @@ function reset() {
   edges = {};
   history = [];
   winEdges = [];
-  currentColor = "red";
   gameOver = false;
   selected = [];
+  currentColor = "red";
   turnLabel.textContent = "赤の番";
   generatePoints();
   drawPoints();
 }
+
+// === 点数変更時の再描画 ===
+selectEl.addEventListener("change", () => {
+  n = parseInt(selectEl.value); // nを更新
+  reset();                      // 再生成＆再描画
+});
 
 function undo() {
   if (history.length === 0 || gameOver) return;
@@ -169,12 +175,6 @@ function undo() {
 document.getElementById("resetBtn").addEventListener("click", reset);
 document.getElementById("undoBtn").addEventListener("click", undo);
 
-// === プルダウン変更時に点数更新 ===
-selectEl.addEventListener("change", () => {
-  n = parseInt(selectEl.value);
-  reset();
-});
-
-// 初期化
+// 初期描画
 generatePoints();
 drawPoints();
