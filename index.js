@@ -109,10 +109,12 @@ cvs.addEventListener("click", e => {
         drawPoints();
         gameOver = true;
         selected = [];
-        setTimeout(() => {
-          alert(`${currentColor === "red" ? "赤" : "青"}の勝ち！`);
-          reset();
-        }, 100);
+     setTimeout(() => {
+  const loser = currentColor === "red" ? "赤" : "青";
+  const winner = currentColor === "red" ? "青" : "赤";
+  alert(`${loser}の負け！\n${winner}の勝ち！`);
+  reset();
+}, 100);  
         return;
       }
       currentColor = currentColor === "red" ? "blue" : "red";
@@ -185,3 +187,4 @@ selectEl.addEventListener("change", () => {
 // 初期化
 generatePoints();
 drawPoints();
+
